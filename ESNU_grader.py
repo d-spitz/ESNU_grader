@@ -105,12 +105,13 @@ def get_ESNUgrade(proofs, non_proofs, midterm, final_exam, tasks_completed):
     total_adj = pset_adj[0] + exam_adj[0] + task_adj
 
     # if "Max D+" is ever true, then set baseline to D+ and only count negative adjustments
+    corrected_baseline = baseline[0]
     if baseline[1] or pset_adj[1] or exam_adj[1]:
-        baseline[0] = 2
+        corrected_baseline = 2
         total_adj = min(total_adj, 0)
 
     # Calculate final grade
-    grade = baseline[0] + total_adj 
+    grade = corrected_baseline + total_adj 
     grade = max(grade, 0) # Can't get worse than an F
     grade = min(grade, len(letter_grades) - 1) # Can't do better than A (at UChicago)
 
