@@ -151,7 +151,7 @@ def main():
                             else:
                                 raise ValueError
                         except ValueError as ex:
-                            print("One inputted value was not an integer value, make sure all inputted characters are digits or commas.")
+                            print("Some inputted value was not an integer value, make sure all inputted characters are digits or commas.")
                             all_int_inp = False
                             break
                     if all_int_inp:
