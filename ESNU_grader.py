@@ -104,8 +104,9 @@ def get_ESNUgrade(proofs, non_proofs, midterm, final_exam, tasks_completed):
     
     total_adj = pset_adj[0] + exam_adj[0] + task_adj
 
-    # if "Max D+" is ever true, then only count negative adjustments
+    # if "Max D+" is ever true, then set baseline to D+ and only count negative adjustments
     if baseline[1] or pset_adj[1] or exam_adj[1]:
+        baseline[0] = 2
         total_adj = min(total_adj, 0)
 
     # Calculate final grade
