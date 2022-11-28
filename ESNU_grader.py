@@ -16,11 +16,12 @@ def get_task_adj(tasks_completed):
 # Given midterm and final scores as integers out of 100 points, returns
 # a pair of the exam adjustment score and a "Max D+" bool 
 def get_exam_adj(midterm, final_exam):
-    max_dplus = False
     adj = 0
     weighted_score = math.ceil((midterm_weight * midterm) + (final_exam_weight * final_exam))
-    if weighted_score < 35:
-        max_dplus = True
+    if weighted_score < 20:
+        adj = -4
+    elif weighted_score <= 34:
+        adj = -3
     elif weighted_score <= 49:
         adj = -2
     elif weighted_score <= 64:
@@ -31,7 +32,7 @@ def get_exam_adj(midterm, final_exam):
         adj = 1
     else:
         adj = 2
-    return (adj, max_dplus)
+    return adj
 
 
 # Given proof and non_proof scores [#E, #S, #N, #U], returns a pair of the
@@ -102,12 +103,13 @@ def get_ESNUgrade(proofs, non_proofs, midterm, final_exam, tasks_completed):
     exam_adj = get_exam_adj(midterm, final_exam)
     task_adj = get_task_adj(tasks_completed)    # No "Max D+" flag here
     
-    total_adj = pset_adj[0] + exam_adj[0] + task_adj
+    total_adj = pset_adj[0] + exam_adj + task_adj
 
     # if "Max D+" is ever true, then set baseline to D+ and only count negative adjustments
     corrected_baseline = baseline[0]
-    if baseline[1] or pset_adj[1] or exam_adj[1]:
+    if baseline[1] or pset_adj[1]:
         corrected_baseline = 2
+        
         total_adj = min(total_adj, 0)
 
     # Calculate final grade
@@ -151,7 +153,7 @@ def main():
                             else:
                                 raise ValueError
                         except ValueError as ex:
-                            print("Some inputted value was not an integer value, make sure all inputted characters are digits or commas.")
+                            print("One inputted value was not an integer value, make sure all inputted characters are digits or commas.")
                             all_int_inp = False
                             break
                     if all_int_inp:
