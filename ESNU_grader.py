@@ -100,7 +100,7 @@ def get_baseline_grade(proofs):
 def get_ESNUgrade(proofs, non_proofs, midterm, final_exam, tasks_completed):
     baseline = get_baseline_grade(proofs)
     pset_adj = get_pset_adj(proofs, non_proofs)
-    exam_adj = get_exam_adj(midterm, final_exam)
+    exam_adj = get_exam_adj(midterm, final_exam) # No "Max D+" flag here
     task_adj = get_task_adj(tasks_completed)    # No "Max D+" flag here
     
     total_adj = pset_adj[0] + exam_adj + task_adj
@@ -115,7 +115,7 @@ def get_ESNUgrade(proofs, non_proofs, midterm, final_exam, tasks_completed):
     # Calculate final grade
     grade = corrected_baseline + total_adj 
     grade = max(grade, 0) # Can't get worse than an F
-    grade = min(grade, len(letter_grades) - 1) # Can't do better than A (at UChicago)
+    grade = min(grade, len(letter_grades) - 1) # Can't do better than A
 
     return letter_grades[grade]
 
